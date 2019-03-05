@@ -14,15 +14,16 @@ const connect = (mapStatetoProps,mapDispatchToProps)=>{
 
             componentDidMount(){
                 // 获取最外层由Provider传入的store
-                
+                const {store} = this.context
 
-                store.subscribe(()=>this.update)
+                store.subscribe(()=>this.update())
+                this.update();
             }
 
             update(){
                 const {store} = this.context
                 const stateProps = mapStatetoProps(store.getState())
-                const dispatchProps = bindActionCreators(mapDispatchToProps,store.dispatch)
+                const dispatchProps = bindActionCreators(mapDispatchToProps, store.dispatch)
 
                 this.setState({
                     props:{
@@ -45,7 +46,7 @@ const connect = (mapStatetoProps,mapDispatchToProps)=>{
 }
 
 class Provider{
-    getChildrenContext(){
+    getChildContext(){
         return {store: props.store}
     }
 
